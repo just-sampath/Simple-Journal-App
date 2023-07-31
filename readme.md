@@ -15,7 +15,6 @@ The Journal App is a web-based application that allows users to maintain a digit
 - User registration and authentication system.
 - Create, update, and delete journal entries.
 - View a list of previous journal entries.
-- Tagging and categorization of journal entries.
 - Simple and intuitive user interface.
 - Responsive design for use on different devices.
 
