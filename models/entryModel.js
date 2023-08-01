@@ -6,13 +6,13 @@ const Users = require("./userModel");
 const entrySchema = new mongoose.Schema({
   title: {
     type: "String",
-    default: Date().toString(),
+    default: Date.now(),
   },
   data: {
     type: "String",
     required: [true, "Please provide some data!"],
   },
-  createdOn: { type: Date, default: Date() },
+  createdOn: { type: Date, default: Date.now() },
   parent: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
 });
 
