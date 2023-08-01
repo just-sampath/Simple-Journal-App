@@ -11,7 +11,14 @@ router
   .post("/register", authController.register)
   .post("/login", authController.login)
   .post("/update", authController.protect, userController.userUpdate)
-  .get("/delete", authController.protect, userController.userDelete);
+  .get("/delete", authController.protect, userController.userDelete)
+  .post("/forgotPassword", authController.forgotPassword)
+  .post("/resetPassword/:token", authController.resetPassword)
+  .post(
+    "/changePassword",
+    authController.protect,
+    userController.changePassword
+  );
 //.get("/logout", authController.logout);
 
 module.exports = router;

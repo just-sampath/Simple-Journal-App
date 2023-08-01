@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
-const Entries = require("./entryModel");
+const crypto = require("crypto");
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -35,7 +35,6 @@ const userSchema = new mongoose.Schema({
     },
     select: false,
   },
-  journals: [{ type: mongoose.Schema.Types.ObjectId, ref: "Entries" }],
   passwordChangedAt: { type: Date, select: false },
   passwordResetToken: { type: String, select: false },
   passwordResetExpires: { type: Date, select: false },
@@ -61,8 +60,36 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
     return jwt.sign({id:this._id},process.env.JWT_SECRET,{expiresIn:process.env.JWT_EXPIRES_IN});
 }*/
 
+// changed password after
+userSchema.methods.changedPasswordAfter = (JWTTimestamp) => {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+    return JWTTimestamp < changedTimestamp;
+  }
+  return false;
+};
+
+// Create password reset token
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+  return resetToken;
+};
+
+userSchema.pre("save", function (next) {
+  if (!this.isModified("password") || this.isNew) return next();
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
 // Creating the User Model
-const User = mongoose.model("Users", userSchema);
+const Users = mongoose.model("Users", userSchema);
 
 // Exporting the User Model
-module.exports = User;
+module.exports = Users;

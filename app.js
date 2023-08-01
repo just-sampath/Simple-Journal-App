@@ -1,11 +1,25 @@
 // All Necessary Imports
 const express = require("express");
+const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize");
+const xss = require("xss-clean");
 
 // App Initialization
 const app = express();
+
+// For Secutiry Purposes
+app.use(helmet());
+
+// For Data from HTML
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// For Static data
 //app.use(express.static('./public'));
+
+// For Data Sanitization
+app.use(mongoSanitize());
+app.use(xss());
 
 // Importing Routers
 const userRouter = require("./routes/userRoutes");

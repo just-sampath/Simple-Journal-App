@@ -5,10 +5,11 @@ const userModel = require("../models/userModel");
 // Getting all Entries
 exports.getAllEntries = async (id, req, res, next) => {
   try {
-    const entries = await userModel.findById(id);
+    const entries = await entryModel.find({ parent: id });
+    console.log(id);
     res.status(200).json({
       status: "Success",
-      data: await entries.populate("journals"),
+      data: entries,
     });
   } catch (err) {
     next(err);
@@ -19,15 +20,11 @@ exports.getAllEntries = async (id, req, res, next) => {
 exports.createEntry = async (id, req, res, next) => {
   try {
     let { title, data } = req.body;
-    const entry = await entryModel.create({ title: title, data: data });
-    const user = await userModel.findById(id).populate("journals");
-    const entryExists = await user.journals.filter((en) => en.title === title);
-    if (entryExists.length > 0)
-      return res
-        .status(400)
-        .json({ msg: "Entry with the same title already exists" });
-    user.journals.push(entry);
-    await user.save();
+    const entry = await entryModel.create({
+      title: title,
+      data: data,
+      parent: id,
+    });
     return res.status(200).json({
       status: "Success",
       data: entry,
@@ -41,8 +38,8 @@ exports.createEntry = async (id, req, res, next) => {
 exports.getEntry = async (id, req, res, next) => {
   try {
     const { title } = req.params;
-    const user = await userModel.findById(id).populate("journals");
-    const entry = await user.journals.filter((en) => en.title === title);
+    const entry = await entryModel.findOne({ title: title, parent: id });
+    if (!entry) return next(new Error("Entry does not exist"));
     res.status(200).json({
       status: "Success",
       data: entry,
@@ -58,14 +55,14 @@ module.exports.updateEntry = async (id, req, res, next) => {
     const { title } = req.params;
     const { data } = req.body;
     const updatedTitle = req.body.title;
-    const user = await userModel.findById(id).populate("journals");
-    const entry = await user.journals.filter((en) => en.title === title);
-    if (entry.length === 0)
-      return res.status(400).json({ msg: "Entry doesn't exist" });
-    let updated = await entryModel.findByIdAndUpdate(entry[0].id, {
-      title: updatedTitle,
-      data: data,
-    });
+    let updated = await entryModel.findOneAndUpdate(
+      { parent: id },
+      {
+        title: updatedTitle,
+        data: data,
+      }
+    );
+    await updated.save();
     res.status(200).json({
       status: "Success",
       data: updated,
@@ -80,11 +77,10 @@ module.exports.updateEntry = async (id, req, res, next) => {
 module.exports.deleteEntry = async (id, req, res, next) => {
   try {
     const { title } = req.params;
-    const user = await userModel.findById(id).populate("journals");
-    const entry = await user.journals.filter((en) => en.title === title);
-    if (entry.length === 0)
-      return res.status(400).json({ msg: "Entry doesn't exist" });
-    let deleted = await entryModel.findByIdAndDelete(entry[0].id);
+    let deleted = await entryModel.findOneAndDelete({
+      title: title,
+      parent: id,
+    });
     res.status(200).json({
       status: "Success",
       data: deleted,
@@ -97,7 +93,7 @@ module.exports.deleteEntry = async (id, req, res, next) => {
 // Deleting all Entries
 module.exports.deleteAllEntries = async (id, req, res, next) => {
   try {
-    const user = await userModel.findByIdAndUpdate(id, { journals: [] });
+    const user = await entryModel.deleteMany({ parent: id });
     res.status(200).json({
       status: "Success",
       data: user,
