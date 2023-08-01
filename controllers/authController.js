@@ -10,7 +10,7 @@ module.exports.register = async (req, res, next) => {
   try {
     let { name, email, password, confirmPassword } = req.body;
     if (!name || !email || !password || !confirmPassword)
-      res.status(400).json({ msg: "Please enter all fields" });
+      return res.status(400).json({ msg: "Please enter all fields" });
     let newUser = await userModel.create({
       name: name,
       email: email,
@@ -20,11 +20,14 @@ module.exports.register = async (req, res, next) => {
     if (!newUser) return res.status(400).json({ msg: "User already exists" });
     if (process.env.NODE_ENV === "production")
       res.status(200).json({ msg: "User registered successfully" });
-    res.status(200).json({
+    
+      let token = await jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    });
+
+    return res.status(200).setHeader('Authorization', 'Bearer '+ token).json({
       status: "Sucess!",
-      token: await jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRES_IN,
-      }),
+      token,
       data: newUser,
     });
   } catch (err) {
@@ -56,6 +59,7 @@ module.exports.login = async (req, res, next) => {
 // Forgot Password
 module.exports.forgotPassword = async (req, res, next) => {
   try {
+    if (!req.body.email) return next(new Error("Please enter your email"));
     const user = await userModule.findOne({ email: req.body.email });
     const resetToken = user.createPasswordResetToken();
     await user.save({ validateBeforeSave: false });

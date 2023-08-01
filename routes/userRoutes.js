@@ -6,12 +6,26 @@ const userController = require("../controllers/userController");
 // Router Initialization
 const router = express.Router();
 
-// Definging Entry Routes
+// Definging GET Routes
+router
+  .get("/register", userController.register)
+  .get(["/", "/login"], userController.login)
+  .get("/delete", authController.protect, userController.userDelete)
+  .get(
+    "/changePassword",
+    authController.protect,
+    userController.getchangePassword
+  )
+  .get("/forgotPassword", userController.forgotPassword)
+  .get("/update", authController.protect, userController.getuserUpdate)
+  .get("/me", authController.protect, userController.getMe);
+
+
+// Defining POST Routes
 router
   .post("/register", authController.register)
   .post("/login", authController.login)
   .post("/update", authController.protect, userController.userUpdate)
-  .get("/delete", authController.protect, userController.userDelete)
   .post("/forgotPassword", authController.forgotPassword)
   .post("/resetPassword/:token", authController.resetPassword)
   .post(
@@ -19,6 +33,5 @@ router
     authController.protect,
     userController.changePassword
   );
-//.get("/logout", authController.logout);
 
 module.exports = router;

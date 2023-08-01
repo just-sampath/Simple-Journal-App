@@ -3,6 +3,8 @@ const express = require("express");
 const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
+const path = require("path");
+const cookieParser = require("cookie-parser");
 
 // App Initialization
 const app = express();
@@ -13,9 +15,13 @@ app.use(helmet());
 // For Data from HTML
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+app.use(cookieParser());
 // For Static data
-//app.use(express.static('./public'));
+app.use(express.static("./public"));
+
+// For views
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname + "/views"));
 
 // For Data Sanitization
 app.use(mongoSanitize());

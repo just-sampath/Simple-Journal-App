@@ -53,3 +53,27 @@ module.exports.changePassword = async (id, req, res, next) => {
     next(err);
   }
 };
+
+module.exports.register = async (req, res, next) => {
+  res.status(200).render("register");
+};
+module.exports.login = async (req, res, next) => {
+  res.status(200).render("login");
+};
+module.exports.getchangePassword = async (id,req, res, next) => {
+  res.status(200).render("changePassword");
+};
+module.exports.forgotPassword = async (req, res, next) => {
+  res.status(200).render("forgotPassword");
+};
+module.exports.getMe = async (id, req, res, next) => {
+  let user = userModel.findById(id);
+  res.status(200).render("profile", {
+    name: user.name,
+    email: user.email,
+  });
+};
+
+module.exports.getuserUpdate = async (id,req, res, next) => {
+  res.status(200).render("updateDetails");
+};
