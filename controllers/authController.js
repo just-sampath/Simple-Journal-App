@@ -5,6 +5,20 @@ const bcrypt = require("bcrypt");
 const email = require("../utils/emails");
 const crypto = require("crypto");
 
+// Sign Token and send cookie
+const signToken = async (newUser, res) => {
+  let token = await jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+  const cookieOpt = {
+    expire: Date.now() + 1000 * 60 * 15,
+    httpOnly: true,
+  };
+  if (process.env.NODE_ENV !== "production") cookieOpt.secure = true;
+  res.cookie("jwt", token, cookieOpt);
+  return token;
+};
+
 // User Registration
 module.exports.register = async (req, res, next) => {
   try {
@@ -20,12 +34,8 @@ module.exports.register = async (req, res, next) => {
     if (!newUser) return res.status(400).json({ msg: "User already exists" });
     if (process.env.NODE_ENV === "production")
       res.status(200).json({ msg: "User registered successfully" });
-    
-      let token = await jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
-
-    return res.status(200).setHeader('Authorization', 'Bearer '+ token).json({
+    let token = await signToken(newUser, res);
+    return res.status(200).json({
       status: "Sucess!",
       token,
       data: newUser,
@@ -44,13 +54,13 @@ module.exports.login = async (req, res, next) => {
     user = await userModel.findOne({ email: email }).select("+password");
     let isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid Password" });
-    res.status(200).json({
+    let token = await signToken(user, res);
+    res.status(200).redirect("/me");
+    /*res.status(200).json({
       status: "success",
-      token: await jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRES_IN,
-      }),
+      token,
       data: user,
-    });
+    });*/
   } catch (err) {
     next(err);
   }
@@ -101,10 +111,8 @@ module.exports.resetPassword = async (req, res, next) => {
 // Protecting the entry routes
 module.exports.protect = async (req, res, next) => {
   try {
-    let authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer"))
-      res.status(400).json({ msg: "Please login to continue" });
-    let token = authHeader.split(" ")[1];
+    let token = req.cookies.jwt;
+    if (!token) res.status(400).json({ msg: "Please login to continue" });
     let decoded = await jwt.verify(token, process.env.JWT_SECRET);
     if (!decoded) res.status(400).json({ msg: "Please login to continue" });
     let user = await userModel.findById(decoded.id);

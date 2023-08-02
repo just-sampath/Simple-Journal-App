@@ -1,0 +1,124 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    background-color: #f2f2f2;
+    background-image: radial-gradient(circle, #d6f5d6, #4CAF50);
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+.form-group button {
+    width: 100%;
+    padding: 10px;
+    background-color: red;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form-group button:hover {
+    background-color: darkgreen;
+}
+
+  .form-group button.reset-password-button {
+    display: none;
+    background-color: #8B0000;
+  }
+
+  .form-group button.reset-password-button:hover {
+    background-color: #2E8B57;
+  }
+
+  .forgot-password {
+    padding-top: 10px;
+    font-size: 14px;
+    color: #000;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .forgot-password:hover {
+    color: red;
+  }
+
+  .profile-name {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .profile-details {
+    text-align: center;
+  }
+
+  .profile-details p {
+    margin-bottom: 10px;
+  }
+
+  .profile-details p span {
+    font-weight: bold;
+  }
+
+  .edit-profile-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .edit-profile-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .edit-profile-buttons button {
+    width: 48%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .edit-profile-buttons button:hover {
+    background-color: #2E8B57;
+  }
+
+  .profile-container {
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 30px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }

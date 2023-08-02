@@ -1,6 +1,7 @@
 // Required Imports
 const userModel = require("../models/userModel");
 const entryModel = require("../models/entryModel");
+const bcrypt = require("bcrypt");
 
 // User Update
 module.exports.userUpdate = async (id, req, res, next) => {
@@ -36,12 +37,15 @@ module.exports.userDelete = async (id, req, res, next) => {
   }
 };
 
+// Change Password
 module.exports.changePassword = async (id, req, res, next) => {
   try {
     const user = await userModel.findById(id);
     let { password, newPassword, confirmPassword } = req.body;
     let isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid Password" });
+    if (newPassword !== confirmPassword)
+      return next(new Error("Invalid Password"));
     password = newPassword;
     confirmPassword = newPassword;
     await user.save();
@@ -60,20 +64,20 @@ module.exports.register = async (req, res, next) => {
 module.exports.login = async (req, res, next) => {
   res.status(200).render("login");
 };
-module.exports.getchangePassword = async (id,req, res, next) => {
+module.exports.getchangePassword = async (id, req, res, next) => {
   res.status(200).render("changePassword");
 };
 module.exports.forgotPassword = async (req, res, next) => {
   res.status(200).render("forgotPassword");
 };
 module.exports.getMe = async (id, req, res, next) => {
-  let user = userModel.findById(id);
+  let user = await userModel.findById(id);
   res.status(200).render("profile", {
     name: user.name,
     email: user.email,
   });
 };
 
-module.exports.getuserUpdate = async (id,req, res, next) => {
+module.exports.getuserUpdate = async (id, req, res, next) => {
   res.status(200).render("updateDetails");
 };

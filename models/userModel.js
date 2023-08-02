@@ -50,11 +50,6 @@ userSchema.pre("save", function (next) {
   });
 });
 
-// Comparing the password
-userSchema.methods.comparePassword = async function (candidatePassword) {
-  return await bcrypt.compare(candidatePassword, this.password);
-};
-
 // Generating the token
 /*userSchema.methods.generateToken = function(){
     return jwt.sign({id:this._id},process.env.JWT_SECRET,{expiresIn:process.env.JWT_EXPIRES_IN});

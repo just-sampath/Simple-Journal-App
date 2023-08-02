@@ -3,80 +3,7 @@ head
   meta(charset='UTF-8')
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
   title Profile
-  style.
-    body {
-    font-family: Helvetica, Arial, sans-serif;
-    background-color: #f2f2f2;
-    background-image: radial-gradient(circle, #d6f5d6, #4CAF50);
-    }
-    .profile-container {
-    max-width: 600px;
-    margin: 0 auto;
-    margin-top: 50px;
-    padding: 30px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    .profile-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 0 auto 20px;
-    }
-    .profile-name {
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 10px;
-    }
-    .profile-details {
-    text-align: center;
-    }
-    .profile-details p {
-    margin-bottom: 10px;
-    }
-    .profile-details p span {
-    font-weight: bold;
-    }
-    /*body {
-    font-family: Helvetica, Arial, sans-serif;
-    background-color: #f2f2f2;
-    background-image: radial-gradient(circle, #d6f5d6, #4CAF50);
-    }*/
-    .edit-profile-container {
-    max-width: 400px;
-    margin: 0 auto;
-    margin-top: 50px;
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    .edit-profile-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    }
-    .edit-profile-buttons {
-    display: flex;
-    justify-content: space-between;
-    }
-    .edit-profile-buttons button {
-    width: 48%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    font-size: 16px;
-    cursor: pointer;
-    }
-    .edit-profile-buttons button:hover {
-    background-color: #2E8B57;
-    }
+  link(rel="stylesheet", href="css/style.css")
 .profile-container
   h1.profile-name #{name}
   .profile-details
@@ -85,11 +12,11 @@ head
     .edit-profile-buttons
       button(type=' submit' formaction='/update') Update Details
       button(type=' submit' formaction='/changePassword') Update Password
-      button#conf(type=' button') Delete Account
+      button#conf Delete Account
 script.
   var ele = document.getElementById("conf");
   ele.addEventListener('click', () => {
-  var r = confirm("Are you sure you want to delete your account?");
+  var r = window.confirm("Are you sure you want to delete your account?");
   if (r) {
   window.location.href = "/delete";
   }
