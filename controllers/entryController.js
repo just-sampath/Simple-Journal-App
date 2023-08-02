@@ -74,7 +74,7 @@ module.exports.updateEntry = async (id, req, res, next) => {
 
     // Updating the entry
     let updated = await entryModel.findOneAndUpdate(
-      { parent: id },
+      { parent: id, title: title },
       {
         title: updatedTitle,
         data: data,

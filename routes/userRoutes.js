@@ -10,7 +10,7 @@ const router = express.Router();
 router
   .get("/register", userController.register)
   .get(["/", "/login"], userController.login)
-  .get("/delete", authController.protect, userController.userDelete)
+  .get("/delete", authController.protect, userController.getUserDelete)
   .get(
     "/changePassword",
     authController.protect,
@@ -19,7 +19,8 @@ router
   .get("/forgotPassword", userController.forgotPassword)
   .get("/update", authController.protect, userController.getuserUpdate)
   .get("/me", authController.protect, userController.getMe)
-  .get("/resetPassword/:token", authController.resetPassword);
+  .get("/resetPassword/:token", authController.resetPassword)
+  .get("/logout", authController.logout);
 
 // Defining POST Routes
 router
@@ -31,7 +32,8 @@ router
     "/changePassword",
     authController.protect,
     userController.changePassword
-  );
+  )
+  .post("/delete", authController.protect, userController.userDelete);
 
 // Exporting the router
 module.exports = router;

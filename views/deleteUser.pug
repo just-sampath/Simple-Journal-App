@@ -1,0 +1,11 @@
+extends base
+
+block content
+  .container
+    h2 Forgot Password
+    form(action='/delete' method='POST')
+      .form-group
+        label(for='newPassword') Enter New Password to confirm delete:
+        input#newPassword(type='password' name='password' placeholder='Enter your new password' required='')
+      .form-group
+        button(type='submit') Submit

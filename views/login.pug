@@ -1,18 +1,18 @@
-doctype html
-head
-  meta(charset='UTF-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  title Login Page
-  link(rel="stylesheet", href="css/style.css")
-.container
-  h2 Login
-  form(action='/login' method='POST')
-    .form-group
-      label(for='email') Email:
-      input#email(type='email' name='email' placeholder='Enter your email' required='')
-    .form-group
-      label(for='password') Password:
-      input#password(type='password' name='password' placeholder='Enter your password' required='')
-      a.forgot-password(href='/forgotPassword') Forgot password?
-    .form-group
-      button(type='submit') Login
+extends base
+
+block content
+  .container
+    h2 Login
+    form(action='/login' method='POST')
+      .form-group
+        label(for='email') Email:
+        input#email(type='email' name='email' placeholder='Enter your email' required='')
+      .form-group
+        label(for='password') Password:
+        input#password(type='password' name='password' placeholder='Enter your password' required='')
+        a.forgot-password(href='/forgotPassword') Forgot password?
+      .form-group
+        button(type='submit') Login
+      .form-group
+        p Don't have an account? 
+          a(href='/register') Register here

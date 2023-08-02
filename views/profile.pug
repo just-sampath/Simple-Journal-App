@@ -1,23 +1,16 @@
-doctype html
-head
-  meta(charset='UTF-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  title Profile
-  link(rel="stylesheet", href="css/style.css")
-.profile-container
-  h1.profile-name #{name}
-  .profile-details
-    p#email(name='email') #{email}
-  form
-    .edit-profile-buttons
-      button(type=' submit' formaction='/update') Update Details
-      button(type=' submit' formaction='/changePassword') Update Password
-      button#conf Delete Account
-script.
-  var ele = document.getElementById("conf");
-  ele.addEventListener('click', () => {
-  var r = window.confirm("Are you sure you want to delete your account?");
-  if (r) {
-  window.location.href = "/delete";
-  }
-  });
+extends base
+
+block content
+  .profile-container
+    h1.profile-name #{name}
+    .profile-details
+      p#email(name='email') #{email}
+    form
+      .edit-profile-buttons
+        button(type=' submit' formaction='/update') Update Details
+      .edit-profile-buttons
+        button(type=' submit' formaction='/changePassword') Update Password
+      .edit-profile-buttons
+        button(type=' submit' formaction='/delete') Delete Account
+      .edit-profile-buttons
+        button(type='submit' formaction='/logout') Logout

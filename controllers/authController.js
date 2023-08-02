@@ -51,11 +51,12 @@ module.exports.register = async (req, res, next) => {
       res.status(200).json({ msg: "User registered successfully" });
 
     // Handling for development
-    return res.status(200).json({
+    res.redirect("/me");
+    /*return res.status(200).json({
       status: "Sucess!",
       token,
       data: newUser,
-    });
+    });*/
   } catch (err) {
     next(err);
   }
@@ -127,6 +128,7 @@ module.exports.forgotPassword = async (req, res, next) => {
   }
 };
 
+// Resetting the password
 module.exports.resetPassword = async (req, res, next) => {
   // Creating a hashed token
   const hashedToken = crypto()
@@ -152,6 +154,22 @@ module.exports.resetPassword = async (req, res, next) => {
 
   // Sending the response
   res.status(200).redirect("/login");
+};
+
+// Logout
+module.exports.logout = async (req, res, next) => {
+  try {
+    // Clearing the cookie
+    res.clearCookie("jwt");
+
+    // Sending the response
+    res.status(200).redirect("/login");
+    /*res.status(200).json({
+      status: "Success",
+    });*/
+  } catch (err) {
+    next(err);
+  }
 };
 
 // Protecting the entry routes

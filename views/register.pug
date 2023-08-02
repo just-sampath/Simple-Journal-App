@@ -1,23 +1,20 @@
-doctype html
-head
-  meta(charset='UTF-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  title Registration Page
-  link(rel="stylesheet", href="css/style.css")
-.container
-  h2 Registration
-  form(action='/register' method='POST')
-    .form-group
-      label(for='name') Name:
-      input#name(type='text' name='name' placeholder='Enter your name' required='')
-    .form-group
-      label(for='email') Email:
-      input#email(type='email' name='email' placeholder='Enter your email' required='')
-    .form-group
-      label(for='password') Password:
-      input#password(type='password' name='password' placeholder='Enter your password' required='')
-    .form-group
-      label(for='confirm-password') Confirm Password:
-      input#confirm-password(type='password' name='confirmPassword' placeholder='Confirm your password' required='')
-    .form-group
-      button(type='submit') Register
+extends base
+
+block content
+  .container
+    h2 Registration
+    form(action='/register' method='POST')
+      .form-group
+        label(for='name') Name:
+        input#name(type='text' name='name' placeholder='Enter your name' required='')
+      .form-group
+        label(for='email') Email:
+        input#email(type='email' name='email' placeholder='Enter your email' required='')
+      .form-group
+        label(for='password') Password:
+        input#password(type='password' name='password' placeholder='Enter your password' required='')
+      .form-group
+        label(for='confirm-password') Confirm Password:
+        input#confirm-password(type='password' name='confirmPassword' placeholder='Confirm your password' required='')
+      .form-group
+        button(type='submit') Register

@@ -1,17 +1,14 @@
-doctype html
-head
-  meta(charset='UTF-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  title Update Details
-  link(rel="stylesheet", href="css/style.css")
-.container
-  h2 Update Details
-  form(action='#' method='POST')
-    .form-group
-      label(for='firstName') Name:
-      input#firstName(type='text' name='name' placeholder='Enter your new name' required='')
-    .form-group
-      label(for='email') Email:
-      input#email(type='email' name='email' placeholder='Enter your email' required='')
-    .form-group
-      button(type='submit') Update
+extends base
+
+block content
+  .container
+    h2 Update Details
+    form(action='#' method='POST')
+      .form-group
+        label(for='firstName') Name:
+        input#firstName(type='text' name='name' placeholder='Enter your new name')
+      .form-group
+        label(for='email') Email:
+        input#email(type='email' name='email' placeholder='Enter your email')
+      .form-group
+        button(type='submit') Update
