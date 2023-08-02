@@ -29,7 +29,9 @@ module.exports.userUpdate = async (id, req, res, next) => {
       console.log(err.message);
     }
     // Sending the response
-    res.redirect("/me");
+    res.render("success", {
+      message: "Successfully updated the details",
+    });
     /*res.status(200).json({
       status: "Success",
       data: user,
@@ -59,13 +61,16 @@ module.exports.userDelete = async (id, req, res, next) => {
     let deleted = await userModel.findByIdAndDelete(id);
 
     // Sending the response
-    res.status(200).json({
+    res.render("success", {
+      message: "Successfully deleted the user",
+    });
+    /*res.status(200).json({
       status: "Success",
       data: {
         deletedUser: deleted,
         deletedData: deletedEntires,
       },
-    });
+    });*/
   } catch (err) {
     next(err);
   }

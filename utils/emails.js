@@ -22,7 +22,7 @@ const sendMail = (op) => {
   };
 
   // Sending the email
-  transport.send(mailOptions);
+  transport.sendMail(mailOptions);
 };
 
 module.exports = sendMail;

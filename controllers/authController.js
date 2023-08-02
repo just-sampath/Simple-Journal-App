@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const email = require("../utils/emails");
 const crypto = require("crypto");
+const session = require("express-session");
 
 // Sign Token and send cookie
 const signToken = async (newUser, res) => {
@@ -99,7 +100,7 @@ module.exports.forgotPassword = async (req, res, next) => {
     if (!req.body.email) return next(new Error("Please enter your email"));
 
     // Checking if the user exists
-    const user = await userModule.findOne({ email: req.body.email });
+    const user = await userModel.findOne({ email: req.body.email });
     if (!user) return next(new Error("User does not exist"));
 
     // Creating password reset token
@@ -112,7 +113,7 @@ module.exports.forgotPassword = async (req, res, next) => {
     // Sending the email
     const message = `Forgot your password? Submit a PATCH request with your new password and confirmPassword to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
     await email({
-      email: user.mail,
+      email: user.email,
       subject: "Your password reset link",
       message,
     });
@@ -197,10 +198,7 @@ module.exports.protect = async (req, res, next) => {
         .render("error", { err: new Error("Please login!") });
 
     // Checking if the user changed the password after the token was issued
-    if (user.changedPasswordAfter(decoded.iat))
-      return res
-        .status(400)
-        .render("error", { err: new Error("Please login!") });
+    if (user.changedPasswordAfter(decoded.iat)) return;
 
     // Sending the id to the next middleware
     next(decoded.id);
