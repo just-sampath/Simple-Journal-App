@@ -40,11 +40,7 @@ app.use("/entries", entryRouter);
 app.use((err, req, res, next) => {
   if (process.env.NODE_ENV === "production")
     res.status(500).send("<h1>Server Error</h1>");
-  else
-    res.status(501).json({
-      status: "Error Occurred!",
-      error: err.message,
-    });
+  else return res.status(400).render("error", { err });
 });
 
 module.exports = app;

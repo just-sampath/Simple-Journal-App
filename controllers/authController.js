@@ -70,12 +70,12 @@ module.exports.login = async (req, res, next) => {
 
     // Checking if the user exists
     let user = await userModel.findOne({ email: email });
-    if (!user) throw new Error("User does not exist");
+    if (!user) return next(new Error("User does not exist"));
 
     // Checking if the password is correct
     user = await userModel.findOne({ email: email }).select("+password");
     let isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) throw new Error("Invalid Password");
+    if (!isMatch) return next(new Error("Invalid Password"));
 
     // Generating the token and sending the cookie
     let token = await signToken(user, res);
@@ -96,11 +96,11 @@ module.exports.login = async (req, res, next) => {
 module.exports.forgotPassword = async (req, res, next) => {
   try {
     // Getting the user
-    if (!req.body.email) throw new Error("Please enter your email");
+    if (!req.body.email) return next(new Error("Please enter your email"));
 
     // Checking if the user exists
     const user = await userModule.findOne({ email: req.body.email });
-    if (!user) throw new Error("User does not exist");
+    if (!user) return next(new Error("User does not exist"));
 
     // Creating password reset token
     const resetToken = user.createPasswordResetToken();
@@ -175,24 +175,32 @@ module.exports.logout = async (req, res, next) => {
 // Protecting the entry routes
 module.exports.protect = async (req, res, next) => {
   try {
-    // Defining the error
-    let er = new Error("Please login to continue");
-
     // Getting the token from the cookie
     let token = req.cookies.jwt;
-    if (!token) throw er;
+    if (!token)
+      return res
+        .status(400)
+        .render("error", { err: new Error("Please login!") });
 
     // Verifying the token
-    let decoded = await jwt.verify(token, process.env.JWT_SECRET);
-    if (!decoded) throw er;
+    let decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decoded)
+      return res
+        .status(400)
+        .render("error", { err: new Error("Please login!") });
 
     // Checking if the user exists
     let user = await userModel.findById(decoded.id);
-    if (!user) throw er;
+    if (!user)
+      return res
+        .status(400)
+        .render("error", { err: new Error("Please login!") });
 
     // Checking if the user changed the password after the token was issued
     if (user.changedPasswordAfter(decoded.iat))
-      throw new Error("Please login again!");
+      return res
+        .status(400)
+        .render("error", { err: new Error("Please login!") });
 
     // Sending the id to the next middleware
     next(decoded.id);

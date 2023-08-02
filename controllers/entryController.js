@@ -32,7 +32,7 @@ exports.createEntry = async (id, req, res, next) => {
     });
 
     // Checking if an entry with the same title exists
-    if (!entry) throw new Error("Entry already exists");
+    if (!entry) return next(new Error("Entry already exists"));
 
     // Sending the response
     return res.status(200).json({
@@ -52,7 +52,7 @@ exports.getEntry = async (id, req, res, next) => {
 
     // Checking if the entry exists
     const entry = await entryModel.findOne({ title: title, parent: id });
-    if (!entry) throw new Error("Entry does not exist");
+    if (!entry) return next(new Error("Entry does not exist"));
 
     // Sending the response
     res.status(200).json({
@@ -82,7 +82,7 @@ module.exports.updateEntry = async (id, req, res, next) => {
     );
 
     // Checking if the entry exists
-    if (!updated) throw new Error("Entry does not exist");
+    if (!updated) return next(new Error("Entry does not exist"));
 
     // Saving the updated entry
     await updated.save();
@@ -110,7 +110,7 @@ module.exports.deleteEntry = async (id, req, res, next) => {
     });
 
     // Checking if the entry exists
-    if (!deleted) throw new Error("Entry does not exist");
+    if (!deleted) return next(new Error("Entry does not exist"));
 
     // Sending the response
     res.status(200).json({

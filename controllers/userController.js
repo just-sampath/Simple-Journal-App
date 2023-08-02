@@ -18,7 +18,7 @@ module.exports.userUpdate = async (id, req, res, next) => {
       if (!userModel.find({ email: email })) {
         user.email = email;
       } else {
-        throw new Error("Email already exists");
+        return next(new Error("Email already exists"));
       }
     }
 
@@ -50,7 +50,7 @@ module.exports.userDelete = async (id, req, res, next) => {
     let isMatch = await bcrypt.compare(password, user.password);
 
     //Checking if passwords are a match
-    if (!isMatch) throw new Error("Not a valid password");
+    if (!isMatch) return next(new Error("Not a valid password"));
 
     // Deleting all the entries of the user
     let deletedEntires = await entryModel.deleteMany({ parent: id });
@@ -82,11 +82,11 @@ module.exports.changePassword = async (id, req, res, next) => {
 
     // Checking if the new passwords match
     if (newPassword !== confirmPassword)
-      throw new Error("New Password and Confirm Password don't match");
+      return next(new Error("New Password and Confirm Password don't match"));
 
     // Checking if the password is correct
     let isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) throw new Error("Not a valid password");
+    if (!isMatch) return next(new Error("Not a valid password"));
 
     // Updating the password
     user.password = newPassword;
