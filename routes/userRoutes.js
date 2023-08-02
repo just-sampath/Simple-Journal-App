@@ -18,8 +18,8 @@ router
   )
   .get("/forgotPassword", userController.forgotPassword)
   .get("/update", authController.protect, userController.getuserUpdate)
-  .get("/me", authController.protect, userController.getMe);
-
+  .get("/me", authController.protect, userController.getMe)
+  .get("/resetPassword/:token", authController.resetPassword);
 
 // Defining POST Routes
 router
@@ -27,11 +27,11 @@ router
   .post("/login", authController.login)
   .post("/update", authController.protect, userController.userUpdate)
   .post("/forgotPassword", authController.forgotPassword)
-  .post("/resetPassword/:token", authController.resetPassword)
   .post(
     "/changePassword",
     authController.protect,
     userController.changePassword
   );
 
+// Exporting the router
 module.exports = router;

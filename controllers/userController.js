@@ -6,11 +6,16 @@ const bcrypt = require("bcrypt");
 // User Update
 module.exports.userUpdate = async (id, req, res, next) => {
   try {
+    // Getting the name and email from the body
     const { name, email } = req.body;
+
+    // Updating the user
     const user = await userModel.findByIdAndUpdate(id, {
       name: name,
       email: email,
     });
+
+    // Sending the response
     res.status(200).json({
       status: "Success",
       data: user,
@@ -23,8 +28,13 @@ module.exports.userUpdate = async (id, req, res, next) => {
 // User Delete
 module.exports.userDelete = async (id, req, res, next) => {
   try {
+    // Deleting all the entries of the user
     let deletedEntires = await entryModel.deleteMany({ parent: id });
+
+    // Deleting the user
     let deleted = await userModel.findByIdAndDelete(id);
+
+    // Sending the response
     res.status(200).json({
       status: "Success",
       data: {
@@ -40,15 +50,26 @@ module.exports.userDelete = async (id, req, res, next) => {
 // Change Password
 module.exports.changePassword = async (id, req, res, next) => {
   try {
+    // Getting the user
     const user = await userModel.findById(id);
+
+    // Getting the passwords from the body
     let { password, newPassword, confirmPassword } = req.body;
-    let isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ msg: "Invalid Password" });
+
+    // Checking if the new passwords match
     if (newPassword !== confirmPassword)
-      return next(new Error("Invalid Password"));
-    password = newPassword;
-    confirmPassword = newPassword;
+      throw new Error("New Password and Confirm Password don't match");
+
+    // Checking if the password is correct
+    let isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) throw new Error("Not a valid password");
+
+    // Updating the password
+    user.password = newPassword;
+    user.confirmPassword = newPassword;
     await user.save();
+
+    // Sending the response
     res.status(200).json({
       status: "Success",
       data: deleted,
@@ -58,18 +79,27 @@ module.exports.changePassword = async (id, req, res, next) => {
   }
 };
 
+// Register
 module.exports.register = async (req, res, next) => {
   res.status(200).render("register");
 };
+
+// Login
 module.exports.login = async (req, res, next) => {
   res.status(200).render("login");
 };
+
+// Change Password
 module.exports.getchangePassword = async (id, req, res, next) => {
   res.status(200).render("changePassword");
 };
+
+// Forgot Password
 module.exports.forgotPassword = async (req, res, next) => {
   res.status(200).render("forgotPassword");
 };
+
+// Get Me
 module.exports.getMe = async (id, req, res, next) => {
   let user = await userModel.findById(id);
   res.status(200).render("profile", {
@@ -78,6 +108,7 @@ module.exports.getMe = async (id, req, res, next) => {
   });
 };
 
+// Get Update
 module.exports.getuserUpdate = async (id, req, res, next) => {
   res.status(200).render("updateDetails");
 };

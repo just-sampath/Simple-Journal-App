@@ -6,16 +6,18 @@ const Users = require("./userModel");
 const entrySchema = new mongoose.Schema({
   title: {
     type: "String",
-    default: Date.now(),
+    default: Date(),
   },
   data: {
     type: "String",
     required: [true, "Please provide some data!"],
   },
-  createdOn: { type: Date, default: Date.now() },
+  createdOn: { type: Date, default: Date() },
   parent: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
 });
 
+
+// Validator for the title
 entrySchema.path("title").validate(async function (value) {
   const entry = await this.constructor.findOne({
     title: value,
@@ -25,6 +27,7 @@ entrySchema.path("title").validate(async function (value) {
   // If an entry with the same title and parent exists, return false to trigger the validation error
   return !entry;
 }, "Entry with the same title already exists for this parent");
+
 
 // Creating the Entry Model
 const Entry = mongoose.model("Entries", entrySchema);

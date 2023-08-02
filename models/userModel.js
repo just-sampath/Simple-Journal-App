@@ -42,7 +42,10 @@ const userSchema = new mongoose.Schema({
 
 // Hashing the password
 userSchema.pre("save", function (next) {
+  // Checking if password has been modified
   if (!this.isModified("password")) return next();
+
+  // Hashing the password
   bcrypt.hash(this.password, 12).then((hash) => {
     this.password = hash;
     this.confirmPassword = undefined;
@@ -50,13 +53,9 @@ userSchema.pre("save", function (next) {
   });
 });
 
-// Generating the token
-/*userSchema.methods.generateToken = function(){
-    return jwt.sign({id:this._id},process.env.JWT_SECRET,{expiresIn:process.env.JWT_EXPIRES_IN});
-}*/
-
-// changed password after
+// Changed password after
 userSchema.methods.changedPasswordAfter = (JWTTimestamp) => {
+  // Checking if the password has been changed
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
       this.passwordChangedAt.getTime() / 1000,
@@ -69,20 +68,25 @@ userSchema.methods.changedPasswordAfter = (JWTTimestamp) => {
 
 // Create password reset token
 userSchema.methods.createPasswordResetToken = function () {
+  //Creating a reset token
   const resetToken = crypto.randomBytes(32).toString("hex");
   this.passwordResetToken = crypto
     .createHash("sha256")
     .update(resetToken)
     .digest("hex");
+
+  // Setting the expiry time
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
   return resetToken;
 };
 
+// Checking if the password has been changed
 userSchema.pre("save", function (next) {
   if (!this.isModified("password") || this.isNew) return next();
   this.passwordChangedAt = Date.now() - 1000;
   next();
 });
+
 // Creating the User Model
 const Users = mongoose.model("Users", userSchema);
 
