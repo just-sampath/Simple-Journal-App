@@ -13,7 +13,7 @@ exports.getAllEntries = async (id, req, res, next) => {
       status: "Success",
       data: entries,
     });*/
-    res.render("entries", { entries: entries, user:true, });
+    res.render("entries", { entries: entries, user: true });
   } catch (err) {
     next(err);
   }
@@ -30,7 +30,7 @@ exports.create = async (id, req, res, next) => {
       status: "Success",
       data: entries,
     });*/
-    res.render("create",{user:true,});
+    res.render("create", { user: true });
   } catch (err) {
     next(err);
   }
@@ -57,7 +57,7 @@ exports.createEntry = async (id, req, res, next) => {
       status: "Success",
       data: entry,
     });*/
-    res.render("success", { message: "Entry created successfully!",user:true, });
+    res.redirect("/entries");
   } catch (err) {
     next(err);
   }
@@ -76,7 +76,7 @@ exports.getEntry = async (id, req, res, next) => {
     if (!entry) return next(new Error("Entry does not exist"));
 
     // Sending the response
-    res.render("entry", { entry: entry ,user:true,});
+    res.render("entry", { entry: entry, user: true });
     /*res.status(200).json({
       status: "Success",
       data: entry,
@@ -110,7 +110,10 @@ module.exports.updateEntry = async (id, req, res, next) => {
     await updated.save();
 
     // Sending the response
-    res.render("success", { message: "Entry updated successfully!" ,user:true,});
+    res.render("success", {
+      message: "Entry updated successfully!",
+      user: true,
+    });
     /*res.status(200).json({
       status: "Success",
       data: updated,
@@ -136,7 +139,7 @@ module.exports.deleteEntry = async (id, req, res, next) => {
     if (!deleted) return next(new Error("Entry does not exist"));
 
     // Sending the response
-    res.render("success", { message: "Entry deleted successfully!", user:true, });
+    res.redirect("/entries");
     /*res.status(200).json({
       status: "Success",
       data: deleted,
@@ -146,18 +149,24 @@ module.exports.deleteEntry = async (id, req, res, next) => {
   }
 };
 
+module.exports.deleteAll = async (id, req, res, next) => {
+  res.render("deleteAllEntries", { user: true });
+};
+
 // Deleting all Entries
 module.exports.deleteAllEntries = async (id, req, res, next) => {
   try {
     // Deleting all entries
     const user = await entryModel.deleteMany({ parent: id });
-
     // Sending the response
     /*res.status(200).json({
       status: "Success",
       data: user,
     });*/
-    res.render("success", { message: "All entries deleted successfully!", user:true,});
+    return res.render("success", {
+      message: "All entries deleted successfully!",
+      user: true,
+    });
   } catch (err) {
     next(err);
   }

@@ -17,7 +17,8 @@ router
 // Defining the POST routes
 router
   .post("/create", authController.protect, entryController.createEntry)
-  .post("/update/:title", authController.protect, entryController.updateEntry);
+  .post("/update/:title", authController.protect, entryController.updateEntry)
+  .post("/deleteAll", authController.protect, entryController.deleteAllEntries);
 
 // Exporting the router
 module.exports = router;

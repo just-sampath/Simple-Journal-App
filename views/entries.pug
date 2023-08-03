@@ -1,9 +1,10 @@
 extends base
 
 block content
-  .card_button
-    a(href='/entries/create/')
-      button(type='card_button' style="color:black;") Create a New Entry!
+  if entries.length > 0
+    .card_button
+      a(href='/entries/create/')
+        button(type='card_button' style="color:black; padding:10px;") Create a New Entry!
   .cards
     .container
       if entries.length > 0
@@ -17,11 +18,11 @@ block content
                 button(type='card_button') edit
               a(href='/entries/delete/'+entry.title)
                 button(type='card_button' style='background-color: rgb(246, 55, 55);') delete
-            .card-time= entry.createdOn.toString().slice(0,15)
+            .card-time #{entry.createdOn.toString().slice(3,15)} 
       else
         .card
           .card-body 
-            h3 No entries yet!
+            h3(style='text-align:center;') No Entries Yet!
           .card_button
                 a(href='/entries/create/')
-                  button(type='card_button') CREATE ONE
+                  button(type='card_button' style='color:black;') CREATE ONE

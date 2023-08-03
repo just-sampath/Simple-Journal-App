@@ -329,7 +329,8 @@ a {
 }
 
 .card {
-  width: calc(50% - 20px);
+  width: calc(33.3% - 20px);
+  min-width: 180px;
   max-width: 350px;
   background: white;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
@@ -351,7 +352,7 @@ a {
 
 .card_button {
   display: flex;
-  justify-content: space-around;
+  justify-content:space-around;
   margin-top: 10px;
 }
 
