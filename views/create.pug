@@ -3,15 +3,16 @@ head
   meta(charset='UTF-8')
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
   title Let's Write!
-  link(rel="stylesheet", href="/style.css")
+  link(rel="stylesheet", href="/css/style.css")
 body
   include _header
-  #app.notes
-    form(method='post')
-        .notes__preview
-          .button
-            button(type='submit' formaction='/entries/create') Create
-            button(type='submit') Delete
-          input.notes__title(type='text' name = 'title' placeholder='Title' required='')
-          .time=Date()
-          textarea.notes__body(name = 'data' placeholder='record your entry')
+  #app.notes__Page
+    .notes__preview
+      form(method='POST')
+        .buttons
+          a(href="/entries")
+            button(type = 'button' style='background-color: red;') Cancel
+          button.submit(type='submit' style='background-color: springgreen;' formaction='/entries/create') Save
+        input.notes__title(type='text' name = 'title' placeholder='Title' required='')
+        .time= new Date().toString()
+        textarea.notes__body(placeholder='record your entry' name = 'data' autofocus='')

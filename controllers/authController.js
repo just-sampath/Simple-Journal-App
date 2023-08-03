@@ -52,7 +52,7 @@ module.exports.register = async (req, res, next) => {
       res.status(200).json({ msg: "User registered successfully" });
 
     // Handling for development
-    res.redirect("/me");
+    res.redirect("/entries");
     /*return res.status(200).json({
       status: "Sucess!",
       token,
@@ -82,7 +82,7 @@ module.exports.login = async (req, res, next) => {
     let token = await signToken(user, res);
 
     // Handling the route
-    res.status(200).redirect("/me");
+    res.status(200).redirect("/entries");
     /*res.status(200).json({
       status: "success",
       token,

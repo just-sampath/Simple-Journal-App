@@ -1,22 +1,24 @@
 extends base
 
 block content
-  #app.notes
-    .notes__sidebar
-      button.add_notes(type='button') Previous Notes
-      .notes__list
-      each item in entries
-        a(href='/entries/entry/' + item.title style='text-decoration: none') 
-          .notes__list-item.notes__list-item--selected
-            .notes__small-title= item.title
-            .notes__small-body= item.data.slice(0,15)
-            .notes__small-updated= item.createdOn.toString().slice(0,15)
-          br
-    form(method='post')
-      .notes__preview
-        .button
-          button(type='submit' formaction='/entries/create') Create
-          button(type='submit') Delete
-        input.notes__title(type='text' name = 'title' placeholder='Title' required='')
-        .time=Date()
-        textarea.notes__body(name = 'data' placeholder='record your entry')
+  .cards
+    .container
+      if entries.length > 0
+        each entry in entries
+          .card
+            a(href='/entries/entry/'+entry.title)
+              .card_title= entry.title
+            .card-body= entry.data.slice(0,100)
+            .card_button
+              a(href='/entries/entry/'+entry.title)
+                button(type='card_button') edit
+              a(href='/entries/delete/'+entry.title)
+                button(type='card_button' style='background-color: rgb(246, 55, 55);') delete
+            .card-time= entry.createdOn.toString().slice(0,15)
+      else
+        .card
+          .card-body 
+            h3 No entries yet!
+          .card_button
+                a(href='/entries/create/')
+                  button(type='card_button') CREATE ONE

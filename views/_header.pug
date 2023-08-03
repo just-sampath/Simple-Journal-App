@@ -1,14 +1,15 @@
 nav
-  label.logo  Let&apos;s Write
-  ul
-    li
-      a(href='/entries') Entries
-    li
-      a(href='/entries/create') Create Entry
-    li
-      a(href='/me') Profile
-    li
-      a(href='/login') Log In 
-    li
-      a(href='/logout') Logout
-    
+  label.logo
+    a(href="/entries") Let&apos;s Write
+  if user
+    ul
+      li
+        a(href='/me') Profile
+      li
+        a(href='/logout') Logout
+  else
+    ul
+      li
+        a(href='/login') Log in
+      li
+        a(href='/register') Register

@@ -31,6 +31,7 @@ module.exports.userUpdate = async (id, req, res, next) => {
     // Sending the response
     res.render("success", {
       message: "Successfully updated the details",
+      user: true,
     });
     /*res.status(200).json({
       status: "Success",
@@ -63,6 +64,7 @@ module.exports.userDelete = async (id, req, res, next) => {
     // Sending the response
     res.render("success", {
       message: "Successfully deleted the user",
+      user: true,
     });
     /*res.status(200).json({
       status: "Success",
@@ -157,7 +159,7 @@ module.exports.login = async (req, res, next) => {
 
 // Change Password
 module.exports.getchangePassword = async (id, req, res, next) => {
-  res.status(200).render("changePassword");
+  res.status(200).render("changePassword", { user: true });
 };
 
 // Forgot Password
@@ -171,15 +173,16 @@ module.exports.getMe = async (id, req, res, next) => {
   res.status(200).render("profile", {
     name: user.name,
     email: user.email,
+    user: true,
   });
 };
 
 // Get Update
 module.exports.getuserUpdate = async (id, req, res, next) => {
-  res.status(200).render("updateDetails");
+  res.status(200).render("updateDetails", { user: true });
 };
 
 // Get User Delete
 module.exports.getUserDelete = async (id, req, res, next) => {
-  res.status(200).render("deleteUser");
+  res.status(200).render("deleteUser", { user: true });
 };
