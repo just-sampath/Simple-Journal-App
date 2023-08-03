@@ -1,6 +1,9 @@
 extends base
 
 block content
+  .card_button
+    a(href='/entries/create/')
+      button(type='card_button' style="color:black;") Create a New Entry!
   .cards
     .container
       if entries.length > 0
