@@ -9,9 +9,10 @@ const router = express.Router();
 // Defining the GET routes
 router
   .get("/", authController.protect, entryController.getAllEntries)
-  .get("/:title", authController.protect, entryController.getEntry)
+  .get("/create/", authController.protect, entryController.create)
   .get("/delete/:title", authController.protect, entryController.deleteEntry)
-  .get("/deleteAll", authController.protect, entryController.deleteAllEntries);
+  .get("/deleteAll", authController.protect, entryController.deleteAllEntries)
+  .get("/entry/:title", authController.protect, entryController.getEntry);
 
 // Defining the POST routes
 router

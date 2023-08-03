@@ -9,10 +9,28 @@ exports.getAllEntries = async (id, req, res, next) => {
     const entries = await entryModel.find({ parent: id });
 
     // Sending the response
-    res.status(200).json({
+    /*res.status(200).json({
       status: "Success",
       data: entries,
-    });
+    });*/
+    res.render("entries", { entries: entries });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Creating an Entry
+exports.create = async (id, req, res, next) => {
+  try {
+    // Getting all entries
+    const entries = await entryModel.find({ parent: id });
+
+    // Sending the response
+    /*res.status(200).json({
+      status: "Success",
+      data: entries,
+    });*/
+    res.render("create");
   } catch (err) {
     next(err);
   }
@@ -49,16 +67,19 @@ exports.getEntry = async (id, req, res, next) => {
   try {
     // Getting the entry title
     const { title } = req.params;
-
     // Checking if the entry exists
-    const entry = await entryModel.findOne({ title: title, parent: id });
+    const entry = await entryModel.findOne({
+      title: title.replace("%20", " "),
+      parent: id,
+    });
     if (!entry) return next(new Error("Entry does not exist"));
 
     // Sending the response
-    res.status(200).json({
+    res.render("entry", { entry: entry });
+    /*res.status(200).json({
       status: "Success",
       data: entry,
-    });
+    });*/
   } catch (err) {
     next(err);
   }
@@ -74,7 +95,7 @@ module.exports.updateEntry = async (id, req, res, next) => {
 
     // Updating the entry
     let updated = await entryModel.findOneAndUpdate(
-      { parent: id, title: title },
+      { parent: id, title: title.replace("%20", " ") },
       {
         title: updatedTitle,
         data: data,
@@ -105,7 +126,7 @@ module.exports.deleteEntry = async (id, req, res, next) => {
 
     // Deleting the entry
     let deleted = await entryModel.findOneAndDelete({
-      title: title,
+      title: title.replace("%20", " "),
       parent: id,
     });
 

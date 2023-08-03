@@ -199,7 +199,7 @@ module.exports.protect = async (req, res, next) => {
 
     // Checking if the user changed the password after the token was issued
     if (user.changedPasswordAfter(decoded.iat)) return;
-
+    
     // Sending the id to the next middleware
     next(decoded.id);
   } catch (err) {

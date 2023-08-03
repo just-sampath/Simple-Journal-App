@@ -1,11 +1,14 @@
-#myTopnav.topnav
-  a(href='/me') Home
-  a(href='/logout') Logout
-  .dropdown
-    button.dropbtn
-      a.active(href='/me') Profile
-      i.fa.fa-caret-down
-    .dropdown-content
-      a(href='/delete') Delete Account
-      a(href='/changePassword') Update Password
-      a(href='/update') Update Details
+nav
+  label.logo  Let&apos;s Write
+  ul
+    li
+      a(href='/entries') Entries
+    li
+      a(href='/entries/create') Create Entry
+    li
+      a(href='/me') Profile
+    li
+      a(href='/login') Log In 
+    li
+      a(href='/logout') Logout
+    
