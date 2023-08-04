@@ -22,9 +22,6 @@ exports.getAllEntries = async (id, req, res, next) => {
 // Creating an Entry
 exports.create = async (id, req, res, next) => {
   try {
-    // Getting all entries
-    const entries = await entryModel.find({ parent: id });
-
     // Sending the response
     /*res.status(200).json({
       status: "Success",

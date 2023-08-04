@@ -82,7 +82,7 @@ module.exports.login = async (req, res, next) => {
       data: user,
     });*/
   } catch (err) {
-    next(err);
+    next(new Error("Please Check your credentials!"));
   }
 };
 
@@ -196,6 +196,6 @@ module.exports.protect = async (req, res, next) => {
     // Sending the id to the next middleware
     next(decoded.id);
   } catch (err) {
-    next(err);
+    next(new Error("Authentication Error!"));
   }
 };
