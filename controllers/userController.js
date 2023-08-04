@@ -15,7 +15,7 @@ module.exports.userUpdate = async (id, req, res, next) => {
 
     if (name) user.name = name;
     if (email) {
-      if (!userModel.find({ email: email })) {
+      if (userModel.findOne({ email: email })) {
         user.email = email;
       } else {
         return next(new Error("Email already exists"));
@@ -62,7 +62,7 @@ module.exports.userDelete = async (id, req, res, next) => {
     let deleted = await userModel.findByIdAndDelete(id);
 
     // Sending the response
-    res.render("/logout");
+    res.redirect("/logout");
     /*res.status(200).json({
       status: "Success",
       data: {
