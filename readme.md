@@ -24,15 +24,15 @@ The Journal App is a web-based application that allows users to maintain a digit
 
 2. Clone this repository to your local machine using:
 
-`git clone https://github.com/just-sampath/Simple-Journal-App.git`
+  `git clone https://github.com/just-sampath/Simple-Journal-App.git`
 
 3. Navigate to the project directory:
 
-`cd journal-app`
+  `cd journal-app`
 
 4.Install the required npm packages:
 
-`npm install`
+  `npm install`
 
 # Usage
 
@@ -40,7 +40,7 @@ The Journal App is a web-based application that allows users to maintain a digit
 
 2. Run the application:
 
-`npm start`
+  `npm start`
 
 3. Open your web browser and go to http://localhost:4000 to access the Journal App.
 
