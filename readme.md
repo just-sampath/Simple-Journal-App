@@ -49,7 +49,7 @@ The Journal App is a web-based application that allows users to maintain a digit
 5. Create and configure the "config.env" file.
 
 6. Configuration
----------------------------------------------------------
+
 | Variable       | Description                           |
 |----------------|---------------------------------------|
 | NODE_ENV       | Environment                           |
@@ -63,7 +63,6 @@ The Journal App is a web-based application that allows users to maintain a digit
 | EMAIL_PORT     | Port                                  |
 | EMAIL_NAME     | Email username                        |
 | EMAIL_PASS     | Email password                        |
-----------------------------------------------------------
 
 # Technologies Used
 
