@@ -41,15 +41,8 @@ module.exports.register = async (req, res, next) => {
       confirmPassword: confirmPassword,
     });
 
-    // Checking if the user already exists
-    if (!newUser) return res.status(400).json({ msg: "User already exists" });
-
     // Generating the token and sending the cookie
     let token = await signToken(newUser, res);
-
-    // Handling for production
-    if (process.env.NODE_ENV === "production")
-      res.status(200).json({ msg: "User registered successfully" });
 
     // Handling for development
     res.redirect("/entries");
@@ -59,7 +52,7 @@ module.exports.register = async (req, res, next) => {
       data: newUser,
     });*/
   } catch (err) {
-    next(err);
+    next(new Error("User already exists!"));
   }
 };
 
@@ -199,7 +192,7 @@ module.exports.protect = async (req, res, next) => {
 
     // Checking if the user changed the password after the token was issued
     if (user.changedPasswordAfter(decoded.iat)) return;
-    
+
     // Sending the id to the next middleware
     next(decoded.id);
   } catch (err) {
