@@ -46,6 +46,25 @@ The Journal App is a web-based application that allows users to maintain a digit
 
 4. Register an account or log in with your existing credentials to start using the app.
 
+5. Create and configure the "config.env" file.
+
+6. Configuration
+---------------------------------------------------------
+| Variable       | Description                           |
+|----------------|---------------------------------------|
+| NODE_ENV       | Environment                           |
+| DATABASE       | Database Address                      |
+| PORT           | Which port to run on                  |
+| DB_PASS        | DB Password                           |
+| DB_USER        | DB USERNAME                           |
+| JWT_SECRET     | Secret key for encoding our JWT       |
+| JWT_EXPIRES_IN | Expiry time for JWT                   |
+| EMAIL_HOST     | Email host                            |
+| EMAIL_PORT     | Port                                  |
+| EMAIL_NAME     | Email username                        |
+| EMAIL_PASS     | Email password                        |
+----------------------------------------------------------
+
 # Technologies Used
 
 - Node.js - Backend JavaScript runtime
