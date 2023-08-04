@@ -34,7 +34,7 @@ body {
 .form-group button {
     width: 100%;
     padding: 10px;
-    background-color: red;
+    background-color: #0056b3;
     color: #fff;
     border: none;
     border-radius: 3px;
@@ -171,36 +171,49 @@ body {
   flex-direction: column;
   padding: 2em 3em;
   flex-grow: 1;
+  max-width: 600px;
+  width: 100%; /* Changed from 90% */
+  margin: 20px;
+  background: white;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
 }
 
 .notes__title,
 .notes__body {
   border: none;
   outline: none;
-  width: 100%;
+  box-sizing: border-box; /* Added */
 }
 
 .notes__title {
   background-color: #d1effa;
   font-size: 3em;
   font-weight: bold;
+  padding: 15px; /* Added */
+  border: none;
+  border-bottom: 2px solid #888;
+  margin-bottom: 10px;
+  margin-top: 5px;
 }
 
 .notes__body {
-  height: 500%;
+  height: 150px; /* Reduced from 500% */
   background-color: #d1effa;
   flex-grow: 1;
   font-size: 1.2em;
   line-height: 1.5;
-  margin-top: 2em;
+  padding: 15px; /* Added */
+  border: 2px solid #888;
   resize: none;
+  margin-bottom: 10px;
 }
 
 .notes__Page {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 80vh;
   background: #d1effa;
 }
 
@@ -396,7 +409,7 @@ a {
 nav {
   background: rgba(228, 245, 250, 0.953);
   height: 50px;
-  width: 100%;
+  width: 95%;
   display: flex;
   align-items: center;
   margin: 20px;

@@ -62,7 +62,7 @@ module.exports.userDelete = async (id, req, res, next) => {
     let deleted = await userModel.findByIdAndDelete(id);
 
     // Sending the response
-    res.redirect("/logout");
+    res.render("success", { message: "Successfully deleted the user" });
     /*res.status(200).json({
       status: "Success",
       data: {
